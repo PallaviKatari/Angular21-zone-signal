@@ -1,12 +1,38 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  templateUrl: './app.html'
 })
-export class App {
-  protected readonly title = signal('angular-zone-signal-demo');
+export class AppComponent {
+
+  // Normal variable (Zone.js demo)
+  count = 0;
+
+  // Signal variable
+  signalCount = signal(0);
+
+  // -----------------------------
+  // Zone.js Example
+  // -----------------------------
+  incrementZone() {
+
+    setTimeout(() => {
+
+      this.count++;
+
+    },1000);
+
+  }
+
+  // -----------------------------
+  // Signal Example
+  // -----------------------------
+  incrementSignal(){
+
+    this.signalCount.update(value => value + 1);
+
+  }
+
 }

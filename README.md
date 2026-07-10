@@ -1,59 +1,86 @@
-# AngularZoneSignalDemo
+# Angular 21 — Zone.js vs Signals Demo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.18.
+This small demo shows two ways Angular 21 updates the UI:
 
-## Development server
+- Traditional Zone.js-triggered change detection (mutable variable updates)
+- Reactive Signals (automatic, fine-grained change propagation)
 
-To start a local development server, run:
+It's intended to help you understand the behavioral differences and when Signals can replace or complement Zone-based patterns.
 
-```bash
-ng serve
-```
+## Prerequisites
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js (LTS)
+- npm (comes with Node)
+- Angular CLI 21 (optional, only if you use `ng` commands)
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Verify basic tools:
 
 ```bash
-ng generate --help
+node -v
+npm -v
+ng version  # optional
 ```
 
-## Building
+## Setup
 
-To build the project run:
+1. Install dependencies:
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+2. Start the dev server:
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+This runs the Angular dev server and serves the demo at http://localhost:4200 by default.
 
-For end-to-end (e2e) testing, run:
+## What this demo contains
+
+- `src/app/app.ts` — demo application logic (shows a traditional mutable counter and a Signal-based counter).
+- `src/app/app.html` — UI template demonstrating both counters and buttons to update them.
+- `src/app/app.config.ts` — small app configuration used by the demo.
+- `src/app/app.css` and `src/app/styles.css` — demo styles.
+
+Open these files to inspect how the counters are implemented and updated.
+
+## What to look for
+
+- Traditional (Zone.js) counter: UI updates when Angular detects changes (usually after async tasks or inside Angular event handlers).
+- Signal counter: the Signal value notifies views directly when changed — updates can be more local, predictable, and cheaper.
+
+The demo includes buttons that update each counter in different ways (synchronous increment, setTimeout/Promise updates) so you can observe when Zone change detection runs vs when Signals update immediately.
+
+## How to experiment
+
+1. Run the app and open the page in a browser.
+2. Use the increment buttons for both counters and observe the UI.
+3. Try updating the traditional counter from a non-Angular callback (e.g., `setTimeout`) — notice when Angular picks up the change.
+4. Inspect the Signal counter implementation — changes to the Signal propagate without Zone involvement.
+
+## Notes and tips
+
+- Signals are a newer reactive primitive in Angular that can improve performance for selective updates.
+- This demo is educational — not a production pattern library. Use Signals where they simplify logic or improve performance.
+
+## Tests
+
+If there are unit tests in `src/app/app.spec.ts`, run:
 
 ```bash
-ng e2e
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Further reading
 
-## Additional Resources
+- Angular Signals: https://angular.io/ (search Signals)
+- Zone.js change detection: https://github.com/angular/zone.js
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+If you'd like, I can:
+
+- Add inline comments to the demo files explaining each step.
+- Create a small demo script that performs automated updates so you can see the differences in the console.
